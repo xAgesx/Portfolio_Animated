@@ -1,0 +1,166 @@
+<div class="app-container" 
+         [class.light-mode]="isLightMode()"
+         [style.--mouse-x.px]="mouseX()" 
+         [style.--mouse-y.px]="mouseY()">
+      
+      <div class="glow-overlay"></div>
+
+      <!-- Navigation -->
+      <nav [class.scrolled]="isScrolled()">
+        <div class="nav-content">
+          <div class="logo">
+            <div class="logo-circle">T</div>
+            <span class="logo-text">Thamer Douss</span>
+          </div>
+          <div class="nav-right">
+            <div class="nav-links">
+              <button (click)="scrollTo('projects')">Work</button>
+              <button (click)="scrollTo('experience')">Experience</button>
+            </div>
+            
+            <button class="theme-toggle" (click)="toggleTheme()" aria-label="Toggle Theme">
+              @if (isLightMode()) {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+              } @else {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+              }
+            </button>
+
+            <a href="mailto:sspencer.armageddonstudios@gmail.com" class="cta-btn">Get in Touch</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero Section -->
+      <header class="hero">
+        <div class="hero-content">
+          <div class="awards-pill">
+            <span class="trophy-icon">🏆</span>
+            2x Game Jam Champion 2026
+          </div>
+          <h1>Crafting <span class="italic-text">Next-Gen</span> <br>XR Experiences.</h1>
+          <p class="description">
+            Software Engineer specializing in <strong>Unity XR</strong>, <strong>Java Systems</strong>, and <strong>Immersive Web</strong>. Recognized for rapid MVP development and technical creativity.
+          </p>
+        </div>
+      </header>
+
+      <!-- Highlights/Wins Bar -->
+      <section class="wins-highlight">
+        <div class="win-track">
+          <div class="win-item">
+            <span class="win-rank">#1</span>
+            <div class="win-detail">
+              <span class="win-title">VR GameJam Epi 2026</span>
+              <span class="win-desc">Stylized Co-op Excellence</span>
+            </div>
+          </div>
+          <div class="win-divider"></div>
+          <div class="win-item">
+            <span class="win-rank">#1</span>
+            <div class="win-detail">
+              <span class="win-title">Global GameJam Epi 2026</span>
+              <span class="win-desc">Best Spatial Mechanics</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Layout -->
+      <main class="main-layout">
+        <aside class="sidebar">
+          <div class="sidebar-sticky">
+            <section class="stack-box">
+              <h3>Core Arsenal</h3>
+              <div class="stack-grid">
+                <span class="skill-tag">Unity</span>
+                <span class="skill-tag">XR Toolkit</span>
+                <span class="skill-tag">Java</span>
+                <span class="skill-tag">Angular</span>
+                <span class="skill-tag">Three.js</span>
+                <span class="skill-tag">Firebase</span>
+              </div>
+            </section>
+
+            <section class="focus-box">
+              <h3>Professional Focus</h3>
+              <ul class="focus-list">
+                <li>Gameplay Architecture</li>
+                <li>VR/MR Locomotion</li>
+                <li>Full-stack Immersion</li>
+              </ul>
+            </section>
+          </div>
+        </aside>
+
+        <section class="content" id="projects">
+          <h2 class="section-heading">Featured Artifacts</h2>
+          @for (project of projects(); track project.title; let i = $index) {
+            <article class="project-card" [class.winner-card]="project.isWinner">
+              <div class="project-image-container">
+                <img [src]="project.image" [alt]="project.title" class="project-img">
+                @if (project.isWinner) {
+                  <div class="winner-badge">CHAMPION</div>
+                }
+              </div>
+              <div class="project-details">
+                <div class="project-header">
+                  <span class="project-id">0{{ i + 1 }}</span>
+                  <a [href]="project.github" target="_blank" class="github-link">View Repository</a>
+                </div>
+                <h2>{{ project.title }}</h2>
+                <p>{{ project.description }}</p>
+                <div class="tag-cloud">
+                  @for (tag of project.tags; track tag) {
+                    <span class="tag">{{ tag }}</span>
+                  }
+                </div>
+                <div class="project-footer">
+                  <div class="metric-box">
+                    <span class="metric-label">Impact</span>
+                    <span class="metric-value">{{ project.metric }}</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          }
+
+          <!-- Experience Section -->
+          <section class="experience-section" id="experience">
+            <h2 class="section-heading">Professional Journey</h2>
+            
+            <div class="verification-letter">
+              <div class="letter-header">
+                <div class="letter-badge">Verification Letter</div>
+                <span class="letter-date">Sept 2025 - Nov 2025</span>
+              </div>
+              <div class="letter-body">
+                <h3>Armageddon Studios</h3>
+                <p class="role-subtitle">Software Engineer (Remote)</p>
+                <blockquote>
+                  "Thamer was able to create the architecture for the gameplay mechanics... and produced a minimum viable product to show to the rest of the team. We were impressed by his progress despite the time zone difference and his occupation as a student."
+                </blockquote>
+                <div class="letter-footer">
+                  <div class="founder-info">
+                    <p class="founder-name">Stetson Spencer</p>
+                    <p class="founder-title">Founder & Lead Game Director</p>
+                  </div>
+                  <a href="mailto:sspencer.armageddonstudios@gmail.com" class="verify-link">Contact for Inquiry</a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+      </main>
+
+      <footer>
+        <div class="footer-content">
+          <h2>Ready for the <br>next challenge.</h2>
+          <div class="social-links">
+            <a href="https://github.com/xAgesx" target="_blank">GitHub</a>
+            <a href="#">LinkedIn</a>
+            <a href="mailto:sspencer.armageddonstudios@gmail.com">Email</a>
+          </div>
+        </div>
+      </footer>
+    </div>
