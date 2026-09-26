@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 interface Project {
   title: string;
+  role: string;
   description: string;
   tags: string[];
   metric: string;
@@ -27,10 +28,11 @@ export class Carousel {
   currentIndex = signal(0);
   isMenuOpen = signal(false);
 
-  projects = signal<Project[]>([
+projects = signal<Project[]>([
     {
       title: "Taxi Simulation Game",
-      description: "End-to-end taxi simulator featuring debt progression system, dynamic day/night cycle, procedural city generation, and sophisticated AI systems for both pedestrians and traffic with complex suspension, mesh deformation, and dynamic tire tracks.",
+      role: "Unity Gameplay Engineering Internship",
+      description: "End-to-end taxi simulator featuring debt progression system, dynamic day or night cycle, procedural city generation, and sophisticated AI systems for both pedestrians and traffic with complex suspension, mesh deformation, and dynamic tire tracks.",
       tags: ["Unity", "C#", "AI Programming", "Particle Systems"],
       metric: "SIV Games Internship",
       github: "https://github.com/xAgesx",
@@ -39,7 +41,8 @@ export class Carousel {
     },
     {
       title: "Fire Training MR Experience",
-      description: "Dynamic Mixed Reality fire training environment for Meta Quest 3 featuring multi-modal controls (hand tracking + controllers), hazardous scenario orchestration (fire, smoke, electrical hazards), and Firebase backend for session analytics.",
+      role: "Freelance Commercial Project",
+      description: "Dynamic Mixed Reality fire training environment for Meta Quest 3 featuring multi-modal controls (hand tracking plus controllers), hazardous scenario orchestration (fire, smoke, electrical hazards), and Firebase backend for session analytics.",
       tags: ["Unity", "XR/MR", "Meta Quest 3", "Firebase", "Hand Tracking"],
       metric: "Freelance Commercial Project",
       github: "https://github.com/xAgesx",
@@ -49,6 +52,7 @@ export class Carousel {
     
     {
       title: "VR-GameJam Entry: Epi 2026 Winner",
+      role: "Competition Winner",
       description: "Led development of a stylized co-op experience. Built and designed a split screen 2-player game with cozy world aesthetics.",
       tags: ["Unity", "C#"],
       metric: "1st Place Winner",
@@ -58,6 +62,7 @@ export class Carousel {
     },
     {
       title: "Global GameJam 2026 Winner",
+      role: "Competition Winner",
       description: "Championship entry for GGJ 2026. Designed a puzzle game MVP under 48 hours, focusing on cutscenes and ambient environment.",
       tags: ["Unity", "C#", "Rapid Prototyping"],
       metric: "1st Place Winner",
@@ -67,14 +72,16 @@ export class Carousel {
     },
     {
       title: "Aethera Immersive Web",
-      description: "Enterprise-grade Angular/Three.js ecosystem. Integrated Firebase for real-time CRUD, custom Auth, ReCaptcha security and made a simple browser game",
+      role: "Full-Stack Portfolio Project",
+      description: "Enterprise-grade Angular or Three.js ecosystem. Integrated Firebase for real-time CRUD, custom Auth, ReCaptcha security and made a simple browser game.",
       tags: ["Angular", "Three.js", "Firebase", "Auth"],
-      metric: "Full-stack Web / 3D",
+      metric: "Full-stack Web or 3D",
       github: "https://github.com/xAgesx/Aethera-Angular-Three",
       image: "/Aethera.png"
     },
     {
       title: "First VR: Atmospheric Puzzle",
+      role: "Portfolio Milestone",
       description: "My foundational VR project. Explored XR Origin fundamentals to create a mood-driven puzzle environment.",
       tags: ["Unity", "XR Origin", "Level Design"],
       metric: "Portfolio Milestone",
@@ -83,6 +90,7 @@ export class Carousel {
     },
     {
       title: "SliceMania Mobile",
+      role: "Mobile Game Release",
       description: "2D arcade experience for mobile. Utilized the new InputSystem and integrated AdMob for revenue generation.",
       tags: ["Unity 2D", "C#", "AdMob"],
       metric: "Mobile Performance",
@@ -91,6 +99,7 @@ export class Carousel {
     },
     {
       title: "Vanilla Java Engine",
+      role: "Core Engineering Project",
       description: "Building the engine from scratch. Focused on core physics, rendering loops, and explored the basics of game development.",
       tags: ["Java", "Core Engineering", "No-Engine"],
       metric: "Pure Systems Logic",
@@ -104,13 +113,10 @@ export class Carousel {
     const isDesktop = width >= 1024;
     
     if (!isDesktop) {
-      const gap = 32; 
-      const cardWidth = Math.min(width * 0.85, 800);
-      const totalShift = this.currentIndex() * (cardWidth + gap);
-      return `translateX(-${totalShift}px)`;
+      return 'translateX(0)';
     }
     
-    const offset = this.currentIndex() * (800 + 32);
+    const offset = this.currentIndex() * (880 + 32);
     return `translateX(-${offset}px)`;
   });
 

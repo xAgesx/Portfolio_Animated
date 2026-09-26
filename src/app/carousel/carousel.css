@@ -355,6 +355,64 @@ h1 {
     position: relative;
 }
 
+@media (max-width: 1023px) {
+    .carousel-viewport {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 1rem 1rem;
+        margin: 0 -1rem;
+    }
+
+    .carousel-track {
+        gap: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    .carousel-card {
+        scroll-snap-align: center;
+        width: 90vw;
+        min-width: 280px;
+        max-width: 400px;
+    }
+
+    .carousel-controls {
+        display: none !important;
+    }
+
+    .carousel-viewport::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        background: linear-gradient(to top, var(--bg), transparent);
+        pointer-events: none;
+    }
+
+    .carousel-viewport::before {
+        content: 'Swipe to explore';
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-weight: 600;
+        pointer-events: none;
+        z-index: 10;
+        animation: fadePulse 2s ease-in-out infinite;
+    }
+
+    @keyframes fadePulse {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+    }
+}
+
 .carousel-controls {
     position: absolute;
     top: 50%;
@@ -407,8 +465,10 @@ h1 {
     width: max-content;
 }
 
+
+
 .carousel-card {
-    width: clamp(300px, 85vw, 800px);
+    width: clamp(440px, 88vw, 880px);
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 2rem;
@@ -514,8 +574,22 @@ h1 {
 
 .card-content h2 {
     font-size: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     font-weight: 700;
+}
+
+.project-role {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: rgba(37, 99, 235, 0.1);
+    border-radius: 4px;
+    border: 1px solid rgba(37, 99, 235, 0.2);
 }
 
 .card-content p {
