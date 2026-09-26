@@ -420,36 +420,45 @@
               </div>
               
               <!-- Right: Details -->
-              <div class="modal-details">
+              <div class="modal-details" [class.collapsed]="modalDetailsCollapsed()">
                 <div class="modal-header">
                   @if (project.isWinner) {
                     <span class="modal-badge">CHAMPION</span>
                   }
                   <h2>{{ project.title }}</h2>
                   <p class="modal-role">{{ project.role }}</p>
+                  <button class="modal-collapse-btn" (click)="toggleModalDetails()" aria-label="Toggle details">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <polyline [attr.points]="modalDetailsCollapsed() ? '6 9 12 15 18 9' : '18 15 12 9 6 15'"/>
+                    </svg>
+                  </button>
                 </div>
                 
-                <p class="modal-description">{{ project.description }}</p>
-                
-                <div class="modal-tags">
-                  @for (tag of project.tags; track tag) {
-                    <span class="tag">{{ tag }}</span>
-                  }
-                </div>
-                
-                <div class="modal-meta">
-                  <div class="modal-meta-item">
-                    <span class="meta-label">Impact</span>
-                    <span class="meta-value">{{ project.metric }}</span>
+                @if (!modalDetailsCollapsed()) {
+                  <div class="modal-details-content">
+                    <p class="modal-description">{{ project.description }}</p>
+                    
+                    <div class="modal-tags">
+                      @for (tag of project.tags; track tag) {
+                        <span class="tag">{{ tag }}</span>
+                      }
+                    </div>
+                    
+                    <div class="modal-meta">
+                      <div class="modal-meta-item">
+                        <span class="meta-label">Impact</span>
+                        <span class="meta-value">{{ project.metric }}</span>
+                      </div>
+                      <div class="modal-meta-item">
+                        <span class="meta-label">Repository</span>
+                        <a [href]="project.github" target="_blank" class="meta-link">
+                          {{ getGithubLabel(project) }}
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        </a>
+                      </div>
+                    </div>
                   </div>
-                  <div class="modal-meta-item">
-                    <span class="meta-label">Repository</span>
-                    <a [href]="project.github" target="_blank" class="meta-link">
-                      {{ getGithubLabel(project) }}
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                    </a>
-                  </div>
-                </div>
+                }
               </div>
             </div>
           </div>

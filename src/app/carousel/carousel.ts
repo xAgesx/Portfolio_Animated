@@ -32,6 +32,7 @@ export class Carousel {
   isMenuOpen = signal(false);
   selectedProject = signal<Project | null>(null);
   modalImageIndex = signal(0);
+  modalDetailsCollapsed = signal(false);
   @ViewChild('modalThumbs') modalThumbs!: ElementRef<HTMLDivElement>;
 
   constructor() {
@@ -47,6 +48,7 @@ export class Carousel {
   openModal(project: Project) {
     this.selectedProject.set(project);
     this.modalImageIndex.set(0);
+    this.modalDetailsCollapsed.set(false);
     document.body.style.overflow = 'hidden';
   }
 
@@ -73,6 +75,10 @@ export class Carousel {
 
   setModalImage(index: number) {
     this.modalImageIndex.set(index);
+  }
+
+  toggleModalDetails() {
+    this.modalDetailsCollapsed.update(v => !v);
   }
 
   getGithubLabel(project: Project): string {

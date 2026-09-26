@@ -1885,7 +1885,15 @@ footer h2 {
 }
 
 .modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
     margin-bottom: 1.5rem;
+}
+
+.modal-collapse-btn {
+    display: none;
 }
 
 .modal-badge {
@@ -1997,6 +2005,10 @@ footer h2 {
     .modal-details {
         padding: 1.5rem;
     }
+    
+    .modal-collapse-btn {
+        display: flex;
+    }
 }
 
 @media (max-width: 600px) {
@@ -2074,10 +2086,65 @@ footer h2 {
         flex: 1;
         min-height: 0;
         max-height: 60vh;
+        transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.2s ease;
+    }
+
+    .modal-details.collapsed {
+        max-height: 72px;
+        padding: 0.75rem 1.25rem;
+    }
+
+    .modal-details.collapsed .modal-details-content {
+        display: none;
+    }
+
+    .modal-content:has(.modal-details.collapsed) .modal-gallery {
+        flex: 1;
+        max-height: none;
+        min-height: 0;
     }
     
     .modal-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
         margin-bottom: 1rem;
+    }
+
+    .modal-collapse-btn {
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: -0.25rem;
+    }
+
+    .modal-collapse-btn:hover {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #000;
+    }
+
+    .modal-collapse-btn svg {
+        transition: transform 0.2s;
+    }
+    
+    .modal-details-content {
+        animation: fadeIn 0.2s ease;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-4px); }
+        to { opacity: 1; transform: translateY(0); }
     }
     
     .modal-details h2 {
