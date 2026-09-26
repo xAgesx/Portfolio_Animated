@@ -16,7 +16,7 @@
           <div class="nav-right">
             <!-- Desktop Links -->
             <div class="nav-links hidden-mobile">
-              <button (click)="scrollTo('projects')">Work</button>
+              <button (click)="scrollTo('projects')">Projects</button>
               <button (click)="scrollTo('experience')">Experience</button>
             </div>
             
@@ -43,7 +43,7 @@
 
         <!-- Mobile Menu Overlay -->
         <div class="mobile-menu" [class.active]="isMenuOpen()">
-          <button (click)="scrollTo('projects'); toggleMenu()">Work</button>
+          <button (click)="scrollTo('projects'); toggleMenu()">Projects</button>
           <button (click)="scrollTo('experience'); toggleMenu()">Experience</button>
           <a href="" class="cta-btn mobile-cta">Tha Me</a>
         </div>
@@ -56,10 +56,19 @@
             <span class="trophy-icon">🏆</span>
             2x Champion 2026
           </div>
-          <h1>Crafting <span class="italic-text">Next-Gen</span> <br>Immersive Experiences.</h1>
-          <p class="description">
-            Software Engineer specializing in <strong>Unity</strong>, <strong>Java Systems</strong>, and <strong>Immersive Web</strong>.
-          </p>
+          <h1>Software Engineer <span class="italic-text">specializing in</span> <br>Immersive & Game Technologies.</h1>
+          <div class="hero-profile">
+            <p class="profile-text">
+              Versatile engineering student passionate about creating <strong>immersive games</strong> and <strong>VR/AR experiences under Unity</strong>. Proven track record of delivering complete projects, capable of transforming complex requirements into polished, performant interactive experiences.
+            </p>
+            <p class="profile-text">
+              Experience in <strong>international studio</strong> (technical project initialization from zero), <strong>freelance VR/MR developer</strong> (commercial client deliveries), and <strong>game jam competitor</strong> (winner Global Game Jam, VR Game Jam EPI 2026). Seeking to bring technical expertise in gameplay programming, simulation design, and XR development.
+            </p>
+          </div>
+          <div class="hero-cta">
+            <a href="https://github.com/xAgesx" target="_blank" class="cta-btn primary">View GitHub</a>
+            <a href="mailto:thamer.douss+stage@gmail.com" class="cta-btn secondary">Get in Touch</a>
+          </div>
         </div>
       </header>
 
@@ -164,23 +173,46 @@
         <section class="content" id="experience">
           <h2 class="section-heading">Professional Journey</h2>
           
-          <div class="verification-letter">
-            <div class="letter-header">
-              <div class="letter-badge">Verification Letter</div>
-              <span class="letter-date">Sept - Nov 2025</span>
-            </div>
-            <div class="letter-body">
-              <h3>Armageddon Studios</h3>
-              <p class="role-subtitle">Software Engineer (Remote)</p>
-              <blockquote>
-                "Thamer created the architecture for the gameplay mechanics... We were impressed by his progress as a student."
-              </blockquote>
-              <div class="letter-footer">
-                <div class="founder-info">
-                  <p class="founder-name">Stetson Spencer</p>
-                  <p class="founder-title">Founder & Lead Director</p>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <div class="timeline-header">
+                  <span class="timeline-date">July - Sept 2026</span>
+                  <h3 class="timeline-company">SIV Games</h3>
                 </div>
-                <a href="" class="verify-link">Inquiry</a>
+                <p class="timeline-role">Gameplay Engineering Intern (Tunis)</p>
+                <p class="timeline-desc">Built a complete taxi simulation product from the ground up: AI traffic and pedestrian systems, procedural city generation, realistic vehicle suspension and physics, dynamic day/night cycles, debt progression mechanics, and mesh deformation with dynamic tire tracks. Delivered a full production-ready experience.</p>
+              </div>
+            </div>
+            
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <div class="timeline-header">
+                  <span class="timeline-date">June 2026</span>
+                  <h3 class="timeline-company">Freelance</h3>
+                </div>
+                <p class="timeline-role">Unity XR/MR Developer</p>
+                <p class="timeline-desc">Delivered Meta Quest 3 fire training MR experience with hand tracking, Firebase analytics, and hazard orchestration.</p>
+              </div>
+            </div>
+            
+            <div class="timeline-item">
+              <div class="timeline-marker"></div>
+              <div class="timeline-content">
+                <div class="timeline-header">
+                  <span class="timeline-date">Sept 2025</span>
+                  <h3 class="timeline-company">Armageddon Studios</h3>
+                </div>
+                <p class="timeline-role">Software Engineer Intern (Remote)</p>
+                <blockquote class="timeline-quote">
+                  "Thamer created the architecture for the gameplay mechanics... We were impressed by his progress as a student."
+                </blockquote>
+                <div class="timeline-ref">
+                  <span class="timeline-ref-name">Stetson Spencer</span>
+                  <span class="timeline-ref-title">Founder & Lead Director</span>
+                </div>
               </div>
             </div>
           </div>
