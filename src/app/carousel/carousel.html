@@ -397,7 +397,7 @@
                   <img [src]="getProjectImages(project)[modalImageIndex()]" [alt]="project.title" loading="eager">
                 </div>
                 @if (hasMultipleImages(project)) {
-                  <div class="modal-thumbs">
+                  <div class="modal-thumbs" #modalThumbs>
                     @for (img of getProjectImages(project); track img; let idx = $index) {
                       <button class="modal-thumb" 
                               [class.active]="modalImageIndex() === idx"

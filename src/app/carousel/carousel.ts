@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, signal, HostListener, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, HostListener, computed, effect, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface Project {
@@ -32,6 +32,14 @@ export class Carousel {
   isMenuOpen = signal(false);
   selectedProject = signal<Project | null>(null);
   modalImageIndex = signal(0);
+  @ViewChild('modalThumbs') modalThumbs!: ElementRef<HTMLDivElement>;
+
+  constructor() {
+    effect(() => {
+      this.modalImageIndex();
+      this.scrollActiveThumbIntoView();
+    });
+  }
 
   techStack = ['Unity', 'C#', 'XR/MR', 'Meta Quest 3', 'Angular', 'Three.js', 'Firebase', 'Java', 'AI Programming', 'Procedural Gen', 'Physics Systems', 'Hand Tracking'];
   tickerDuration = '30s';
@@ -264,6 +272,14 @@ projects = signal<Project[]>([
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
+    }
+  }
+
+  private scrollActiveThumbIntoView() {
+    const container = this.modalThumbs?.nativeElement;
+    const activeThumb = container?.querySelector('.modal-thumb.active');
+    if (container && activeThumb) {
+      activeThumb.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
   }
 
