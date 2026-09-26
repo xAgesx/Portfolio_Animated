@@ -352,7 +352,52 @@ h1 {
 .carousel-viewport {
     width: 100%;
     overflow: visible;
-    padding: 0 1.5rem;
+    position: relative;
+}
+
+.carousel-controls {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 20;
+    padding: 0 1rem;
+}
+
+.carousel-controls .nav-btn {
+    pointer-events: all;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    opacity: 0.9;
+    flex-shrink: 0;
+}
+
+.carousel-controls .nav-btn:hover:not(:disabled) {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--bg);
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 8px 30px rgba(37, 99, 235, 0.3);
+}
+
+.carousel-controls .nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
 }
 
 .carousel-track {
@@ -370,7 +415,13 @@ h1 {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    transition: all 0.5s;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.carousel-card:hover {
+    border-color: var(--primary);
+    box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
+    transform: translateY(-4px);
 }
 
 @media (min-width: 1024px) {
@@ -384,6 +435,16 @@ h1 {
         opacity: 0.3;
         transform: scale(0.95);
         pointer-events: none;
+    }
+
+    .carousel-card:not(.active):hover {
+        transform: scale(0.95);
+        border-color: var(--border);
+        box-shadow: none;
+    }
+
+    .carousel-card.active:hover {
+        transform: translateY(-4px);
     }
 }
 

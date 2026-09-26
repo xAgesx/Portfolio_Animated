@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thamer Douss - Unity & XR Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --gold: #d4af37;
+            --bg: #050505;
+            --card-bg: #111;
+            --text: #f0f0f0;
+            --text-muted: #888;
+            --border: #222;
+            --hero-sub: #444;
+            --win-bg: #0a0a0a;
+        }
+
+        .light-mode {
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --hero-sub: #cbd5e1;
+            --win-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .app-container {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .glow-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y),
+                rgba(37, 99, 235, 0.08) 0%,
+                transparent 70%
+            );
+            z-index: 1;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            z-index: 100;
+            padding: 1.5rem 2rem;
+            transition: all 0.3s;
+        }
+        nav.scrolled {
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+        .logo { display: flex; align-items: center; gap: 0.75rem; }
+        .logo-circle {
+            width: 32px; height: 32px;
+            background: var(--primary);
+            border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900; color: #fff;
+        }
+        .logo-text { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.03em; }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links button {
+            background: none; border: none; color: var(--text-muted);
+            cursor: pointer; font-size: 0.9rem; transition: color 0.3s;
+        }
+        .nav-links button:hover { color: var(--text); }
+        
+        .theme-toggle {
+            background: none; border: 1px solid var(--border);
+            width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: var(--text); transition: all 0.3s;
+        }
+        .theme-toggle:hover { border-color: var(--primary); }
+        .theme-toggle svg { width: 18px; height: 18px; }
+
+        .cta-btn {
+            background: var(--text); color: var(--bg);
+            padding: 0.6rem 1.25rem; border-radius: 99px;
+            font-size: 0.8rem; font-weight: 700; text-decoration: none;
+            transition: all 0.3s;
+        }
+        .cta-btn:hover { opacity: 0.8; }
+
+        /* Hero */
+        .hero { padding: 12rem 2rem 4rem; max-width: 1200px; margin: 0 auto; }
+        .awards-pill {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1rem; background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            color: var(--gold); border-radius: 99px;
+            font-size: 0.75rem; font-weight: 700; margin-bottom: 2rem;
+        }
+        h1 { font-size: clamp(3rem, 8vw, 5.5rem); line-height: 0.95; font-weight: 800; margin-bottom: 2rem; }
+        .italic-text { font-style: italic; color: var(--hero-sub); font-weight: 300; }
+        .description { font-size: 1.25rem; color: var(--text-muted); max-width: 600px; line-height: 1.6; }
+
+        /* Wins Highlight */
+        .wins-highlight {
+            background: var(--win-bg);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 3rem 2rem;
+            margin-bottom: 6rem;
+            transition: background-color 0.5s;
+        }
+        .win-track {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; gap: 4rem; align-items: center;
+            flex-wrap: wrap;
+        }
+        .win-item { display: flex; align-items: center; gap: 1.5rem; }
+        .win-rank {
+            font-size: 2.5rem; font-weight: 900; color: var(--gold);
+            opacity: 0.8;
+        }
+        .win-title { display: block; font-weight: 700; font-size: 1.1rem; }
+        .win-desc { color: var(--text-muted); font-size: 0.8rem; }
+        .win-divider { width: 1px; height: 40px; background: var(--border); }
+
+        /* Layout */
+        .main-layout {
+            max-width: 1200px; margin: 0 auto; padding: 0 2rem 8rem;
+            display: grid; grid-template-columns: 280px 1fr; gap: 6rem;
+        }
+        .sidebar-sticky { position: sticky; top: 120px; }
+        h3 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-muted); margin-bottom: 1.5rem; }
+        
+        .stack-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 4rem; }
+        .skill-tag {
+            font-size: 0.75rem; background: var(--card-bg); padding: 0.4rem 0.8rem;
+            border-radius: 4px; border: 1px solid var(--border);
+        }
+        .focus-list { list-style: none; padding: 0; }
+        .focus-list li { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        .focus-list li::before { content: '→'; color: var(--primary); }
+
+        /* Carousel Section */
+        .projects-carousel-container {
+            padding: 6rem 0;
+            overflow: hidden;
+        }
+
+        .carousel-header {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .carousel-viewport {
+            width: 100%;
+            overflow: visible;
+            padding: 0 1.5rem;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 2rem;
+            transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+            width: max-content;
+        }
+
+        .carousel-card {
+            width: clamp(300px, 85vw, 800px);
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 2rem;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: all 0.5s;
+        }
+
+        @media (min-width: 1024px) {
+            .carousel-card {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                height: 500px;
+            }
+
+            .carousel-card:not(.active) {
+                opacity: 0.3;
+                transform: scale(0.95);
+                pointer-events: none;
+            }
+        }
+
+        .card-visual {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            flex-shrink: 0;
+        }
+
+        @media (min-width: 1024px) {
+            .card-visual {
+                height: 100%;
+            }
+        }
+
+        .card-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .winner-badge {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            background: var(--gold);
+            color: #000;
+            font-size: 0.65rem;
+            font-weight: 900;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+        }
+
+        .card-content {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        @media (min-width: 1024px) {
+            .card-content {
+                padding: 3rem;
+            }
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-id {
+            font-family: monospace;
+            opacity: 0.4;
+            font-size: 0.9rem;
+        }
+
+        .github-link {
+            color: var(--primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            text-decoration: none;
+        }
+
+        .card-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .card-content p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .carousel-controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.2;
+            cursor: not-allowed;
+        }
+
+        .section-heading {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .tag {
+            font-size: 0.65rem;
+            padding: 0.3rem 0.6rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        .metric-box {
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+        }
+
+        .metric-label {
+            display: block;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            font-weight: 800;
+            margin-bottom: 0.2rem;
+        }
+
+        .metric-value {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        /* Experience / Verification Letter */
+        .verification-letter {
+            background: var(--card-bg); border: 1px solid var(--border); border-radius: 2rem; padding: 3rem;
+            position: relative; overflow: hidden;
+        }
+        .verification-letter::before {
+            content: '"'; position: absolute; top: -20px; right: 20px;
+            font-size: 15rem; color: rgba(37, 99, 235, 0.05); font-family: serif;
+        }
+        .letter-header { display: flex; justify-content: space-between; margin-bottom: 2rem; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .letter-badge { background: var(--primary); font-size: 0.65rem; padding: 0.3rem 0.7rem; border-radius: 4px; font-weight: 800; color: #fff; }
+        .letter-date { font-size: 0.8rem; color: var(--text-muted); }
+        
+        blockquote {
+            font-size: 1.4rem; font-style: italic; line-height: 1.5; color: var(--text);
+            margin: 2rem 0; padding-left: 1.5rem; border-left: 3px solid var(--primary);
+        }
+        .role-subtitle { color: var(--primary); font-weight: 700; margin-bottom: 0.5rem; }
+        
+        .letter-footer { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 3rem; }
+        .founder-name { font-weight: 700; font-size: 1.1rem; }
+        .founder-title { font-size: 0.8rem; color: var(--text-muted); }
+        .verify-link { font-size: 0.8rem; color: var(--text); text-decoration: underline; }
+
+        /* Footer */
+        footer { padding: 4rem 1.5rem 1rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+        .footer-content { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 3rem; }
+        @media (min-width: 768px) {
+            .footer-content { flex-direction: row; justify-content: space-between; align-items: flex-end; }
+        }
+        footer h2 { font-size: clamp(2.5rem, 5vw, 3.5rem); line-height: 1.1; font-weight: 800; letter-spacing: -0.02em; }
+        .social-links { display: flex; gap: 2.5rem; }
+        .social-links a { font-size: 0.9rem; color: var(--text-muted); text-decoration: none; font-weight: 600; transition: color 0.2s; }
+        .social-links a:hover { color: var(--primary); }
+
+        @media (max-width: 1000px) {
+            .main-layout { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .win-track { flex-direction: column; align-items: flex-start; gap: 2rem; }
+            .win-divider { display: none; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container" id="appContainer">
+        <div class="glow-overlay" id="glowOverlay"></div>
+
+        <!-- Navigation -->
+        <nav id="nav">
+            <div class="nav-content">
+                <div class="logo">
+                    <div class="logo-circle">T</div>
+                    <span class="logo-text">Thamer Douss</span>
+                </div>
+                <div class="nav-right">
+                    <div class="nav-links">
+                        <button onclick="scrollToSection('projects')">Work</button>
+                        <button onclick="scrollToSection('experience')">Experience</button>
+                    </div>
+                    
+                    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Theme" id="themeToggle">
+                        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    </button>
+
+                    <a href="mailto:thamer.douss@gmail.com" class="cta-btn">Get in Touch</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-content">
+                <div class="awards-pill">
+                    <span class="trophy-icon">🏆</span>
+                    2x Game Jam Champion 2026
+                </div>
+                <h1>Crafting <span class="italic-text">Next-Gen</span> <br>XR Experiences.</h1>
+                <p class="description">
+                    Software Engineer specializing in <strong>Unity XR</strong>, <strong>Java Systems</strong>, and <strong>Immersive Web</strong>. Recognized for rapid MVP development and technical creativity.
+                </p>
+            </div>
+        </header>
+
+        <!-- Highlights/Wins Bar -->
+        <section class="wins-highlight">
+            <div class="win-track">
+                <div class="win-item">
+                    <span class="win-rank">#1</span>
+                    <div class="win-detail">
+                        <span class="win-title">VR GameJam EPI 2026</span>
+                        <span class="win-desc">Stylized Co-op Excellence</span>
+                    </div>
+                </div>
+                <div class="win-divider"></div>
+                <div class="win-item">
+                    <span class="win-rank">#1</span>
+                    <div class="win-detail">
+                        <span class="win-title">Global GameJam EPI 2026</span>
+                        <span class="win-desc">Best Spatial Mechanics</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Carousel Section -->
+        <section class="projects-carousel-container" id="projects">
+            <div class="carousel-header">
+                <h2 class="section-heading">Featured Artifacts</h2>
+                <div class="carousel-controls">
+                    <button class="nav-btn" onclick="prevProject()" id="prevBtn" disabled>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <button class="nav-btn" onclick="nextProject()" id="nextBtn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="carousel-viewport">
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- Projects will be rendered here by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Layout -->
+        <main class="main-layout">
+            <aside class="sidebar">
+                <div class="sidebar-sticky">
+                    <section class="stack-box">
+                        <h3>Core Arsenal</h3>
+                        <div class="stack-grid">
+                            <span class="skill-tag">Unity</span>
+                            <span class="skill-tag">XR Toolkit</span>
+                            <span class="skill-tag">C#</span>
+                            <span class="skill-tag">Java</span>
+                            <span class="skill-tag">Angular</span>
+                            <span class="skill-tag">Three.js</span>
+                            <span class="skill-tag">Firebase</span>
+                            <span class="skill-tag">Blender</span>
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">Unreal</span>
+                        </div>
+                    </section>
+
+                    <section class="focus-box">
+                        <h3>Professional Focus</h3>
+                        <ul class="focus-list">
+                            <li>Gameplay Architecture</li>
+                            <li>VR/MR Locomotion</li>
+                            <li>Full-stack Immersion</li>
+                            <li>Simulation Design</li>
+                            <li>AI Systems</li>
+                        </ul>
+                    </section>
+                </div>
+            </aside>
+
+            <section class="content" id="experience">
+                <h2 class="section-heading">Professional Journey</h2>
+                
+                <div class="verification-letter">
+                    <div class="letter-header">
+                        <div class="letter-badge">Verification Letter</div>
+                        <span class="letter-date">Jul - Sep 2026</span>
+                    </div>
+                    <div class="letter-body">
+                        <h3>SIV Games</h3>
+                        <p class="role-subtitle">Unity Developer Intern (Hybrid, Tunis)</p>
+                        <blockquote>
+                            "Thamer delivered end-to-end development of a taxi simulation game featuring robust gameplay loops with debt systems, dynamic day/night cycles, procedural spawn systems, and sophisticated AI for both pedestrians and traffic. Engineered realistic taxi controller with complex suspension, mesh deformation on collision, and dynamic tire tracks."
+                        </blockquote>
+                        <div class="letter-footer">
+                            <div class="founder-info">
+                                <p class="founder-name">SIV Games Team</p>
+                                <p class="founder-title">Game Studio</p>
+                            </div>
+                            <a href="https://github.com/xAgesx" class="verify-link" target="_blank">View Projects</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="verification-letter" style="margin-top: 2rem;">
+                    <div class="letter-header">
+                        <div class="letter-badge">Verification Letter</div>
+                        <span class="letter-date">Jun - Jul 2026</span>
+                    </div>
+                    <div class="letter-body">
+                        <h3>Freelance MR Simulation</h3>
+                        <p class="role-subtitle">MR Developer (Sousse, Tunisia)</p>
+                        <blockquote>
+                            "Thamer created a dynamic Mixed Reality fire training environment for Meta Quest 3 featuring multi-modal controls (hand tracking + controllers), hazardous scenario orchestration (fire, smoke, electrical), and Firebase backend integration for session analytics and exposure timelines."
+                        </blockquote>
+                        <div class="letter-footer">
+                            <div class="founder-info">
+                                <p class="founder-name">Client Project</p>
+                                <p class="founder-title">Commercial MR Development</p>
+                            </div>
+                            <a href="https://github.com/xAgesx" class="verify-link" target="_blank">View Projects</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="verification-letter" style="margin-top: 2rem;">
+                    <div class="letter-header">
+                        <div class="letter-badge">Verification Letter</div>
+                        <span class="letter-date">Sep - Oct 2025</span>
+                    </div>
+                    <div class="letter-body">
+                        <h3>Armageddon Studios</h3>
+                        <p class="role-subtitle">Software Engineer (Remote, Virginia USA)</p>
+                        <blockquote>
+                            "Thamer created the architecture for the gameplay mechanics of a new isometric RTS title... We were impressed by his progress despite the time zone difference and his occupation as a student. Founding developer responsible for grid-based building, unit management, and combat systems."
+                        </blockquote>
+                        <div class="letter-footer">
+                            <div class="founder-info">
+                                <p class="founder-name">Stetson Spencer</p>
+                                <p class="founder-title">Founder & Lead Game Director</p>
+                            </div>
+                            <a href="mailto:sspencer.armageddonstudios@gmail.com" class="verify-link">Contact for Inquiry</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <h2>Ready for the <br>next challenge.</h2>
+                <div class="social-links">
+                    <a href="https://github.com/xAgesx" target="_blank">GitHub</a>
+                    <a href="https://linkedin.com/in/thamer-douss" target="_blank">LinkedIn</a>
+                    <a href="mailto:thamer.douss@gmail.com">Email</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Project data - combining old portfolio projects + new ones from CV
+        const projects = [
+            // NEW PROJECTS FROM CV
+            {
+                title: "Taxi Simulation Game",
+                description: "End-to-end taxi simulator featuring debt progression system, dynamic day/night cycle, procedural city generation, and sophisticated AI systems for both pedestrians and traffic with complex suspension, mesh deformation, and dynamic tire tracks.",
+                tags: ["Unity", "C#", "AI Programming", "Particle Systems"],
+                metric: "SIV Games Internship",
+                github: "https://github.com/xAgesx",
+                image: "https://via.placeholder.com/800x500/111/2563eb?text=Taxi+Simulation",
+                isWinner: false
+            },
+            {
+                title: "Fire Training MR Experience",
+                description: "Dynamic Mixed Reality fire training environment for Meta Quest 3 featuring multi-modal controls (hand tracking + controllers), hazardous scenario orchestration (fire, smoke, electrical hazards), and Firebase backend for session analytics.",
+                tags: ["Unity", "XR/MR", "Meta Quest 3", "Firebase", "Hand Tracking"],
+                metric: "Freelance Commercial Project",
+                github: "https://github.com/xAgesx",
+                image: "https://via.placeholder.com/800x500/111/2563eb?text=Fire+Training+MR",
+                isWinner: false
+            },
+            {
+                title: "Isometric RTS Foundation",
+                description: "Technical foundation for a new isometric real-time strategy game featuring grid-based building mechanics, unit management, combat systems, resource gathering architecture, and AI pathfinding systems.",
+                tags: ["Unity", "C#", "RTS Systems", "Grid Architecture", "Pathfinding"],
+                metric: "Armageddon Studios Internship",
+                github: "https://github.com/xAgesx",
+                image: "https://via.placeholder.com/800x500/111/2563eb?text=Isometric+RTS",
+                isWinner: false
+            },
+            // ORIGINAL PORTFOLIO PROJECTS (KEEPING THESE) - Using original images
+            {
+                title: "VR-GameJam Entry: EPI 2026 Winner",
+                description: "Led development of a stylized co-op experience. Built and designed a split screen 2-player game with cozy world aesthetics.",
+                tags: ["Unity", "C#"],
+                metric: "1st Place Winner",
+                github: "https://github.com/xAgesx/VR-GameJam",
+                image: "Clean_up_party.png",
+                isWinner: true
+            },
+            {
+                title: "Global GameJam 2026 Winner",
+                description: "Championship entry for GGJ 2026. Designed a puzzle game MVP under 48 hours, focusing on cutscenes and ambient environment.",
+                tags: ["Unity", "C#", "Rapid Prototyping"],
+                metric: "1st Place Winner",
+                github: "https://github.com/xAgesx/GlobalGameJam-Entry---Unity",
+                image: "GGG_epi.png",
+                isWinner: true
+            },
+            {
+                title: "Aethera Immersive Web",
+                description: "Enterprise-grade Angular/Three.js ecosystem. Integrated Firebase for real-time CRUD, custom Auth, ReCaptcha security and made a simple browser game.",
+                tags: ["Angular", "Three.js", "Firebase", "Auth"],
+                metric: "Full-stack Web / 3D",
+                github: "https://github.com/xAgesx/Aethera-Angular-Three",
+                image: "Aethera.png",
+                isWinner: false
+            },
+            {
+                title: "First VR: Atmospheric Puzzle",
+                description: "My foundational VR project. Explored XR Origin fundamentals to create a mood-driven puzzle environment.",
+                tags: ["Unity", "XR Origin", "Level Design"],
+                metric: "Portfolio Milestone",
+                github: "https://github.com/xAgesx/First_VR_Game-Unity",
+                image: "First_VR.png",
+                isWinner: false
+            },
+            {
+                title: "SliceMania Mobile",
+                description: "2D arcade experience for mobile. Utilized the new InputSystem and integrated AdMob for revenue generation.",
+                tags: ["Unity 2D", "C#", "AdMob"],
+                metric: "Mobile Performance",
+                github: "https://github.com/xAgesx/SliceMania-Unity-2D",
+                image: "sliceMania.png",
+                isWinner: false
+            },
+            {
+                title: "Vanilla Java Engine",
+                description: "Building the engine from scratch. Focused on core physics, rendering loops, and explored the basics of game development.",
+                tags: ["Java", "Core Engineering", "No-Engine"],
+                metric: "Pure Systems Logic",
+                github: "https://github.com/xAgesx/MyFirstGame-Java-",
+                image: "First_Game_Java.png",
+                isWinner: false
+            }
+        ];
+
+        let currentIndex = 0;
+        let isLightMode = false;
+        let isScrolled = false;
+        let mouseX = 0;
+        let mouseY = 0;
+
+        const carouselTrack = document.getElementById('carouselTrack');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const nav = document.getElementById('nav');
+        const themeToggle = document.getElementById('themeToggle');
+        const glowOverlay = document.getElementById('glowOverlay');
+        const appContainer = document.getElementById('appContainer');
+
+        // Render projects
+        function renderProjects() {
+            carouselTrack.innerHTML = projects.map((project, i) => `
+                <article class="carousel-card ${i === currentIndex ? 'active' : ''} ${project.isWinner ? 'winner-card' : ''}" data-index="${i}">
+                    <div class="card-visual">
+                        <img src="${project.image}" alt="${project.title}" loading="lazy">
+                        ${project.isWinner ? '<div class="winner-badge">CHAMPION</div>' : ''}
+                    </div>
+                    <div class="card-content">
+                        <div class="project-header">
+                            <span class="project-id">0${i + 1}</span>
+                            <a href="${project.github}" target="_blank" class="github-link">Repo</a>
+                        </div>
+                        <h2>${project.title}</h2>
+                        <p>${project.description}</p>
+                        <div class="tag-cloud">
+                            ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        <div class="metric-box">
+                            <span class="metric-label">Impact</span>
+                            <span class="metric-value">${project.metric}</span>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            const cards = document.querySelectorAll('.carousel-card');
+            const width = window.innerWidth;
+            const isDesktop = width >= 1024;
+            
+            let transform;
+            if (!isDesktop) {
+                const gap = 32;
+                const cardWidth = Math.min(width * 0.85, 800);
+                const totalShift = currentIndex * (cardWidth + gap);
+                transform = `translateX(-${totalShift}px)`;
+            } else {
+                const offset = currentIndex * (800 + 32);
+                transform = `translateX(-${offset}px)`;
+            }
+            
+            carouselTrack.style.transform = transform;
+            
+            // Update active class
+            cards.forEach((card, i) => {
+                if (isDesktop) {
+                    card.classList.toggle('active', i === currentIndex);
+                }
+            });
+            
+            // Update nav buttons
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === projects.length - 1;
+        }
+
+        function nextProject() {
+            if (currentIndex < projects.length - 1) {
+                currentIndex++;
+                updateCarousel();
+            }
+        }
+
+        function prevProject() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        }
+
+        function toggleTheme() {
+            isLightMode = !isLightMode;
+            appContainer.classList.toggle('light-mode', isLightMode);
+            
+            const sunIcon = themeToggle.querySelector('.sun-icon');
+            const moonIcon = themeToggle.querySelector('.moon-icon');
+            
+            if (isLightMode) {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            } else {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                const offset = 100;
+                const bodyRect = document.body.getBoundingClientRect().top;
+                const elementRect = el.getBoundingClientRect().top;
+                const elementPosition = elementRect - bodyRect;
+                const offsetPosition = elementPosition - offset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Mouse tracking for glow effect
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            appContainer.style.setProperty('--mouse-x', mouseX + 'px');
+            appContainer.style.setProperty('--mouse-y', mouseY + 'px');
+        });
+
+        // Scroll handler
+        window.addEventListener('scroll', () => {
+            isScrolled = window.scrollY > 30;
+            nav.classList.toggle('scrolled', isScrolled);
+        });
+
+        // Touch/swipe support for carousel
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        carouselTrack.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        carouselTrack.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextProject();
+                } else {
+                    prevProject();
+                }
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevProject();
+            if (e.key === 'ArrowRight') nextProject();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            updateCarousel();
+        });
+
+        // Initialize
+        renderProjects();
+    </script>
+</body>
+</html>

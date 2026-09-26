@@ -88,14 +88,6 @@
       <section class="projects-carousel-container" id="projects">
         <div class="carousel-header">
           <h2 class="section-heading">Featured Artifacts</h2>
-          <div class="carousel-controls">
-            <button class="nav-btn" (click)="prevProject()" [disabled]="currentIndex() === 0">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"><path d="M15 18l-6-6 6-6"/></svg>
-            </button>
-            <button class="nav-btn" (click)="nextProject()" [disabled]="currentIndex() === projects().length - 1">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
-          </div>
         </div>
 
         <div class="carousel-viewport">
@@ -129,6 +121,14 @@
                 </div>
               </article>
             }
+          </div>
+          <div class="carousel-controls">
+            <button class="nav-btn" (click)="prevProject()" [disabled]="currentIndex() === 0">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <button class="nav-btn" (click)="nextProject()" [disabled]="currentIndex() === projects().length - 1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
           </div>
         </div>
       </section>

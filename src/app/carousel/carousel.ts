@@ -29,6 +29,25 @@ export class Carousel {
 
   projects = signal<Project[]>([
     {
+      title: "Taxi Simulation Game",
+      description: "End-to-end taxi simulator featuring debt progression system, dynamic day/night cycle, procedural city generation, and sophisticated AI systems for both pedestrians and traffic with complex suspension, mesh deformation, and dynamic tire tracks.",
+      tags: ["Unity", "C#", "AI Programming", "Particle Systems"],
+      metric: "SIV Games Internship",
+      github: "https://github.com/xAgesx",
+      image: "https://via.placeholder.com/800x500/111/2563eb?text=Taxi+Simulation",
+      isWinner: false
+    },
+    {
+      title: "Fire Training MR Experience",
+      description: "Dynamic Mixed Reality fire training environment for Meta Quest 3 featuring multi-modal controls (hand tracking + controllers), hazardous scenario orchestration (fire, smoke, electrical hazards), and Firebase backend for session analytics.",
+      tags: ["Unity", "XR/MR", "Meta Quest 3", "Firebase", "Hand Tracking"],
+      metric: "Freelance Commercial Project",
+      github: "https://github.com/xAgesx",
+      image: "https://via.placeholder.com/800x500/111/2563eb?text=Fire+Training+MR",
+      isWinner: false
+    },
+    
+    {
       title: "VR-GameJam Entry: Epi 2026 Winner",
       description: "Led development of a stylized co-op experience. Built and designed a split screen 2-player game with cozy world aesthetics.",
       tags: ["Unity", "C#"],
