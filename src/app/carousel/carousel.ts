@@ -28,6 +28,9 @@ export class Carousel {
   currentIndex = signal(0);
   isMenuOpen = signal(false);
 
+  techStack = ['Unity', 'C#', 'XR/MR', 'Meta Quest 3', 'Angular', 'Three.js', 'Firebase', 'Java', 'AI Programming', 'Procedural Gen', 'Physics Systems', 'Hand Tracking'];
+  tickerDuration = '30s';
+
 projects = signal<Project[]>([
     {
       title: "Taxi Simulation Game",
@@ -36,7 +39,7 @@ projects = signal<Project[]>([
       tags: ["Unity", "C#", "AI Programming", "Particle Systems"],
       metric: "SIV Games Internship",
       github: "https://github.com/xAgesx",
-      image: "https://via.placeholder.com/800x500/111/2563eb?text=Taxi+Simulation",
+      image: "/taxiTounsi.png",
       isWinner: false
     },
     {
@@ -46,7 +49,7 @@ projects = signal<Project[]>([
       tags: ["Unity", "XR/MR", "Meta Quest 3", "Firebase", "Hand Tracking"],
       metric: "Freelance Commercial Project",
       github: "https://github.com/xAgesx",
-      image: "https://via.placeholder.com/800x500/111/2563eb?text=Fire+Training+MR",
+      image: "/MrSceneario.jpg",
       isWinner: false
     },
     

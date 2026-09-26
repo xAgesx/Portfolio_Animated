@@ -18,6 +18,7 @@
             <div class="nav-links hidden-mobile">
               <button (click)="scrollTo('projects')">Projects</button>
               <button (click)="scrollTo('experience')">Experience</button>
+              <a href="/cv.pdf" target="_blank" class="nav-cv-btn">View CV</a>
             </div>
             
             <button class="theme-toggle" (click)="toggleTheme()" aria-label="Toggle Theme">
@@ -45,30 +46,93 @@
         <div class="mobile-menu" [class.active]="isMenuOpen()">
           <button (click)="scrollTo('projects'); toggleMenu()">Projects</button>
           <button (click)="scrollTo('experience'); toggleMenu()">Experience</button>
+          <a href="/cv.pdf" target="_blank" class="mobile-cv-btn">View CV</a>
           <a href="" class="cta-btn mobile-cta">Tha Me</a>
         </div>
       </nav>
 
       <!-- Hero Section -->
       <header class="hero">
-        <div class="hero-content">
-          <div class="awards-pill">
-            <span class="trophy-icon">🏆</span>
-            2x Champion 2026
+        <div class="hero-bg">
+          <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
           </div>
-          <h1>Software Engineer <span class="italic-text">specializing in</span> <br>Immersive & Game Technologies.</h1>
+          <div class="grid-overlay"></div>
+        </div>
+        
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            <span>Software Engineer</span>
+            <span class="badge-sep"></span>
+            <span>Immersive & Game Tech</span>
+          </div>
+          
+          <h1>
+            <span class="hero-title-line">Building</span>
+            <span class="hero-title-line hero-title-accent">Immersive Worlds</span>
+            <span class="hero-title-line">with Code</span>
+          </h1>
+          
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat-value">2x</span>
+              <span class="stat-label">Champion 2026</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+              <span class="stat-value">3</span>
+              <span class="stat-label">Professional Roles</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+              <span class="stat-value">8+</span>
+              <span class="stat-label">Projects Delivered</span>
+            </div>
+          </div>
+          
           <div class="hero-profile">
             <p class="profile-text">
-              Versatile engineering student passionate about creating <strong>immersive games</strong> and <strong>VR/AR experiences under Unity</strong>. Proven track record of delivering complete projects, capable of transforming complex requirements into polished, performant interactive experiences.
+              Versatile engineer crafting <strong>Unity gameplay systems</strong>, <strong>XR/MR experiences</strong>, and <strong>immersive web</strong> with Angular & Three.js.
             </p>
             <p class="profile-text">
-              Experience in <strong>international studio</strong> (technical project initialization from zero), <strong>freelance VR/MR developer</strong> (commercial client deliveries), and <strong>game jam competitor</strong> (winner Global Game Jam, VR Game Jam EPI 2026). Seeking to bring technical expertise in gameplay programming, simulation design, and XR development.
+              From <strong>studio R&D</strong> (project initialization from zero) to <strong>freelance commercial deliveries</strong> and <strong>game jam victories</strong> — transforming complex requirements into polished, performant interactive experiences.
             </p>
           </div>
-          <div class="hero-cta">
-            <a href="https://github.com/xAgesx" target="_blank" class="cta-btn primary">View GitHub</a>
-            <a href="mailto:thamer.douss+stage@gmail.com" class="cta-btn secondary">Get in Touch</a>
+          
+          <div class="hero-tech-ticker">
+            <div class="ticker-track" [style.animation-duration]="tickerDuration">
+              @for (tech of techStack; track tech) {
+                <span class="ticker-item">{{ tech }}</span>
+              }
+              @for (tech of techStack; track tech) {
+                <span class="ticker-item">{{ tech }}</span>
+              }
+            </div>
           </div>
+          
+          <div class="hero-cta">
+            <a href="https://github.com/xAgesx" target="_blank" class="cta-btn primary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+              View GitHub
+            </a>
+            <a href="/cv.pdf" target="_blank" class="cta-btn secondary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              View CV
+            </a>
+            <a href="mailto:thamer.douss+stage@gmail.com" class="cta-btn secondary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Get in Touch
+            </a>
+          </div>
+        </div>
+        
+        <div class="scroll-indicator">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
         </div>
       </header>
 
@@ -147,18 +211,6 @@
       <main class="main-layout">
         <aside class="sidebar">
           <div class="sidebar-sticky">
-            <section class="stack-box">
-              <h3>Core Arsenal</h3>
-              <div class="stack-grid">
-                <span class="skill-tag">Unity</span>
-                <span class="skill-tag">XR Toolkit</span>
-                <span class="skill-tag">Java</span>
-                <span class="skill-tag">Angular</span>
-                <span class="skill-tag">Three.js</span>
-                <span class="skill-tag">Firebase</span>
-              </div>
-            </section>
-
             <section class="focus-box">
               <h3>Professional Focus</h3>
               <ul class="focus-list">
@@ -224,6 +276,7 @@
           <h2>Ready for the <br>next challenge.</h2>
           <div class="social-links">
             <a href="https://github.com/xAgesx" target="_blank">GitHub</a>
+            <a href="/cv.pdf" target="_blank">View CV</a>
             <a href="mailto:thamer.douss+stage@gmail.com">Email</a>
           </div>
         </div>
