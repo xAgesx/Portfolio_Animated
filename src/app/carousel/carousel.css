@@ -1756,7 +1756,7 @@ footer h2 {
 
 .modal-content {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 0;
     min-height: 0;
     align-items: stretch;
@@ -1771,6 +1771,7 @@ footer h2 {
     min-height: 400px;
     max-height: 700px;
     width: 100%;
+    min-width: 0;
 }
 
 .modal-main-image {
@@ -1797,10 +1798,18 @@ footer h2 {
 .modal-thumbs {
     display: flex;
     gap: 0.5rem;
-    padding: 1rem 1.5rem;
+    padding: 2rem 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex-shrink: 0;
+    height: 52px;
+}
+
+.modal-thumbs::-webkit-scrollbar {
+    display: none;
 }
 
 .modal-thumb {
@@ -1872,6 +1881,7 @@ footer h2 {
     justify-content: space-between;
     overflow-y: auto;
     min-height: 0;
+    min-width: 0;
 }
 
 .modal-header {
