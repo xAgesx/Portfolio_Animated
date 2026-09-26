@@ -488,7 +488,7 @@ h1 {
     .carousel-card {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        height: 500px;
+        height: 520px;
     }
 
     .carousel-card:not(.active) {
@@ -549,13 +549,16 @@ h1 {
 @media (min-width: 1024px) {
     .card-content {
         padding: 3rem;
+        display: grid;
+        grid-template-rows: auto auto 1fr auto auto;
+        align-content: start;
     }
 }
 
 .project-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .project-id {
@@ -576,28 +579,82 @@ h1 {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
     font-weight: 700;
+    line-height: 1.2;
 }
 
 .project-role {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
     color: var(--primary);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     margin-bottom: 1rem;
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    background: rgba(37, 99, 235, 0.1);
-    border-radius: 4px;
-    border: 1px solid rgba(37, 99, 235, 0.2);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.project-role::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    background: var(--primary);
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
 .card-content p {
     font-size: 0.95rem;
     color: var(--text-muted);
     line-height: 1.6;
-    margin-bottom: 1.5rem;
-    flex-grow: 1;
+    margin-bottom: 1rem;
+    flex-shrink: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tag {
+    font-size: 0.65rem;
+    padding: 0.35rem 0.7rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-muted);
+    transition: all 0.2s;
+}
+
+.tag:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.metric-box {
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+    flex-shrink: 0;
+}
+
+.metric-label {
+    display: block;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+}
+
+.metric-value {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text);
 }
 
 .carousel-controls {
