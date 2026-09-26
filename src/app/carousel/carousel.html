@@ -21,6 +21,8 @@
               <a href="/cv.pdf" target="_blank" class="nav-cv-btn">View CV</a>
             </div>
             
+            <a href="" class="cta-btn hidden-mobile">xAgesx</a>
+
             <button class="theme-toggle" (click)="toggleTheme()" aria-label="Toggle Theme">
               @if (isLightMode()) {
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -28,8 +30,6 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2 M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
               }
             </button>
-
-            <a href="" class="cta-btn hidden-mobile">xAgesx</a>
 
             <!-- Mobile Menu Toggle -->
             <button class="mobile-toggle" (click)="toggleMenu()" [attr.aria-expanded]="isMenuOpen()">
@@ -51,7 +51,8 @@
         </div>
       </nav>
 
-      <!-- Hero Section -->
+      <!-- Hero Section Variant 1: Floating Shapes (commented out) -->
+      <!--
       <header class="hero">
         <div class="hero-bg">
           <div class="floating-shapes">
@@ -135,23 +136,120 @@
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
         </div>
       </header>
+      -->
+
+      <!-- Hero Section Variant 2: Terminal/Code Style (active) -->
+      <header class="hero hero-v2">
+        <div class="hero-v2-bg">
+          <div class="terminal-window">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <span class="terminal-title">thamer@portfolio:~$</span>
+            </div>
+            <div class="terminal-body">
+              <div class="terminal-line"><span class="prompt">$</span> <span class="command" data-text="whoami"></span></div>
+              <div class="terminal-line output">Software Engineer · Immersive & Game Technologies</div>
+              <div class="terminal-line"><span class="prompt">$</span> <span class="command" data-text="ls -la projects/"></span></div>
+              <div class="terminal-line output">🏆 VR GameJam 2026 Winner</div>
+              <div class="terminal-line output">🏆 Global GameJam 2026 Winner</div>
+              <div class="terminal-line output">🚗 Taxi Simulation (SIV Games)</div>
+              <div class="terminal-line output">🔥 Fire Training MR (Freelance)</div>
+              <div class="terminal-line output">🌐 Aethera Immersive Web</div>
+              <div class="terminal-line"><span class="prompt">$</span> <span class="command" data-text="cat skills.txt"></span></div>
+              <div class="terminal-line output skills">Unity · C# · XR/MR · Angular · Three.js · Firebase · Java</div>
+              <div class="terminal-line"><span class="prompt">$</span> <span class="cursor"></span></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="hero-v2-content">
+          <h1>Building <span class="highlight">Immersive Worlds</span> with Code</h1>
+          <p class="hero-v2-tagline">From studio R&D to freelance XR deliveries and game jam victories — transforming complex requirements into polished, performant interactive experiences.</p>
+          <div class="hero-v2-cta">
+            <a href="https://github.com/xAgesx" target="_blank" class="cta-btn primary">View GitHub</a>
+            <a href="/cv.pdf" target="_blank" class="cta-btn secondary">View CV</a>
+          </div>
+        </div>
+        
+        <div class="scroll-indicator">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+        </div>
+      </header>
 
       <!-- Highlights/Wins Bar -->
       <section class="wins-highlight">
         <div class="win-track">
           <div class="win-item">
-            <span class="win-rank">#1</span>
+            <span class="win-rank">🏆</span>
             <div class="win-detail">
-              <span class="win-title">VR GameJam 2026</span>
-              <span class="win-desc">Co-op Excellence</span>
+              <span class="win-title">VR GameJam EPI 2026</span>
+              <span class="win-desc">1st Place · Co-op Excellence</span>
             </div>
           </div>
-          <div class="win-divider"></div>
           <div class="win-item">
-            <span class="win-rank">#1</span>
+            <span class="win-rank">🏆</span>
             <div class="win-detail">
-              <span class="win-title">Global Jam 2026</span>
-              <span class="win-desc">Spatial Mechanics</span>
+              <span class="win-title">Global GameJam 2026</span>
+              <span class="win-desc">1st Place · Spatial Mechanics</span>
+            </div>
+          </div>
+          <div class="win-item">
+            <span class="win-rank">💼</span>
+            <div class="win-detail">
+              <span class="win-title">3 Professional Roles</span>
+              <span class="win-desc">Studio R&D · Freelance XR · Gameplay Intern</span>
+            </div>
+          </div>
+          <div class="win-item">
+            <span class="win-rank">📁</span>
+            <div class="win-detail">
+              <span class="win-title">33+ GitHub Repositories</span>
+              <span class="win-desc">Open Source · Private · Collaborative</span>
+            </div>
+          </div>
+          <div class="win-item">
+            <span class="win-rank">🌍</span>
+            <div class="win-detail">
+              <span class="win-title">International Experience</span>
+              <span class="win-desc">Remote (US) · Tunis</span>
+            </div>
+          </div>
+          <!-- Duplicated for seamless marquee loop -->
+          <div class="win-item">
+            <span class="win-rank">🏆</span>
+            <div class="win-detail">
+              <span class="win-title">VR GameJam EPI 2026</span>
+              <span class="win-desc">1st Place · Co-op Excellence</span>
+            </div>
+          </div>
+          <div class="win-item">
+            <span class="win-rank">🏆</span>
+            <div class="win-detail">
+              <span class="win-title">Global GameJam 2026</span>
+              <span class="win-desc">1st Place · Spatial Mechanics</span>
+            </div>
+          </div>
+          <div class="win-item">
+            <span class="win-rank">💼</span>
+            <div class="win-detail">
+              <span class="win-title">3 Professional Roles</span>
+              <span class="win-desc">Studio R&D · Freelance XR · Gameplay Intern</span>
+            </div>
+          </div>
+          <div class="win-item">
+            <span class="win-rank">📁</span>
+            <div class="win-detail">
+              <span class="win-title">33+ GitHub Repositories</span>
+              <span class="win-desc">Open Source · Private · Collaborative</span>
+            </div>
+          </div>
+          <div class="win-item">
+            <span class="win-rank">🌍</span>
+            <div class="win-detail">
+              <span class="win-title">International Experience</span>
+              <span class="win-desc">Remote (US) · Tunis</span>
             </div>
           </div>
         </div>
@@ -168,7 +266,9 @@
             @for (project of projects(); track project.title; let i = $index) {
               <article class="carousel-card" 
                        [class.active]="currentIndex() === i"
-                       [class.winner-card]="project.isWinner">
+                       [class.winner-card]="project.isWinner"
+                       (click)="openModal(project)"
+                       style="cursor: pointer;">
                 <div class="card-visual">
                   <img [src]="project.image" [alt]="project.title" loading="lazy">
                   @if (project.isWinner) {
@@ -178,7 +278,7 @@
                 <div class="card-content">
                   <div class="project-header">
                     <span class="project-id">0{{ i + 1 }}</span>
-                    <a [href]="project.github" target="_blank" class="github-link">Repo</a>
+                    <a [href]="project.github" target="_blank" class="github-link" (click)="$event.stopPropagation()">{{ getGithubLabel(project) }}</a>
                   </div>
                   <h2>{{ project.title }}</h2>
                   <p class="project-role">{{ project.role }}</p>
@@ -281,4 +381,78 @@
           </div>
         </div>
       </footer>
+
+      <!-- Project Modal -->
+      @if (selectedProject(); as project) {
+        <div class="modal-overlay" (click)="closeModal()" @fadeIn>
+          <div class="modal-container" (click)="$event.stopPropagation()" @slideUp>
+            <button class="modal-close" (click)="closeModal()" aria-label="Close">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            
+            <div class="modal-content">
+              <!-- Left: Image Album -->
+              <div class="modal-gallery">
+                <div class="modal-main-image">
+                  <img [src]="getProjectImages(project)[modalImageIndex()]" [alt]="project.title" loading="lazy">
+                </div>
+                @if (hasMultipleImages(project)) {
+                  <div class="modal-thumbs">
+                    @for (img of getProjectImages(project); track img; let idx = $index) {
+                      <button class="modal-thumb" 
+                              [class.active]="modalImageIndex() === idx"
+                              (click)="setModalImage(idx)"
+                              aria-label="View image {{ idx + 1 }}">
+                        <img [src]="img" [alt]="project.title + ' ' + (idx + 1)" loading="lazy">
+                      </button>
+                    }
+                  </div>
+                  <div class="modal-nav">
+                    <button class="modal-nav-btn" (click)="prevModalImage()" aria-label="Previous image">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <span class="modal-counter">{{ modalImageIndex() + 1 }} / {{ getProjectImages(project).length }}</span>
+                    <button class="modal-nav-btn" (click)="nextModalImage()" aria-label="Next image">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                  </div>
+                }
+              </div>
+              
+              <!-- Right: Details -->
+              <div class="modal-details">
+                <div class="modal-header">
+                  @if (project.isWinner) {
+                    <span class="modal-badge">CHAMPION</span>
+                  }
+                  <h2>{{ project.title }}</h2>
+                  <p class="modal-role">{{ project.role }}</p>
+                </div>
+                
+                <p class="modal-description">{{ project.description }}</p>
+                
+                <div class="modal-tags">
+                  @for (tag of project.tags; track tag) {
+                    <span class="tag">{{ tag }}</span>
+                  }
+                </div>
+                
+                <div class="modal-meta">
+                  <div class="modal-meta-item">
+                    <span class="meta-label">Impact</span>
+                    <span class="meta-value">{{ project.metric }}</span>
+                  </div>
+                  <div class="modal-meta-item">
+                    <span class="meta-label">Repository</span>
+                    <a [href]="project.github" target="_blank" class="meta-link">
+                      {{ getGithubLabel(project) }}
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
     </div>

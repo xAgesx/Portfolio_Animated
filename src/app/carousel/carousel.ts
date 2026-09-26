@@ -9,6 +9,9 @@ interface Project {
   metric: string;
   github: string;
   image: string;
+  imageFolder?: string;
+  imageManifest?: string[];
+  isPrivate?: boolean;
   isWinner?: boolean;
 }
 
@@ -27,9 +30,66 @@ export class Carousel {
   isLightMode = signal(false);
   currentIndex = signal(0);
   isMenuOpen = signal(false);
+  selectedProject = signal<Project | null>(null);
+  modalImageIndex = signal(0);
 
   techStack = ['Unity', 'C#', 'XR/MR', 'Meta Quest 3', 'Angular', 'Three.js', 'Firebase', 'Java', 'AI Programming', 'Procedural Gen', 'Physics Systems', 'Hand Tracking'];
   tickerDuration = '30s';
+
+  openModal(project: Project) {
+    this.selectedProject.set(project);
+    this.modalImageIndex.set(0);
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeModal() {
+    this.selectedProject.set(null);
+    document.body.style.overflow = '';
+  }
+
+  nextModalImage() {
+    const project = this.selectedProject();
+    if (project && this.hasMultipleImages(project)) {
+      const images = this.getProjectImages(project);
+      this.modalImageIndex.update(i => (i + 1) % images.length);
+    }
+  }
+
+  prevModalImage() {
+    const project = this.selectedProject();
+    if (project && this.hasMultipleImages(project)) {
+      const images = this.getProjectImages(project);
+      this.modalImageIndex.update(i => (i - 1 + images.length) % images.length);
+    }
+  }
+
+  setModalImage(index: number) {
+    this.modalImageIndex.set(index);
+  }
+
+  getGithubLabel(project: Project): string {
+    return project.isPrivate ? 'Private' : 'Repo';
+  }
+
+  getProjectImages(project: Project): string[] {
+    if (project.imageFolder) {
+      return [
+        project.image,
+        `${project.imageFolder}/1.jpg`,
+        `${project.imageFolder}/2.jpg`,
+        `${project.imageFolder}/3.jpg`,
+        `${project.imageFolder}/4.jpg`,
+      ];
+    }
+    if (project.imageManifest) {
+      return [project.image, ...project.imageManifest];
+    }
+    return [project.image];
+  }
+
+  hasMultipleImages(project: Project): boolean {
+    return !!project.imageFolder || !!project.imageManifest;
+  }
 
 projects = signal<Project[]>([
     {
@@ -40,6 +100,17 @@ projects = signal<Project[]>([
       metric: "SIV Games Internship",
       github: "https://github.com/xAgesx",
       image: "/taxiTounsi.png",
+      imageManifest: [
+        "/Project-Albums/taxiTounsi/Image (1).png",
+        "/Project-Albums/taxiTounsi/Image (2).png",
+        "/Project-Albums/taxiTounsi/Image (3).png",
+        "/Project-Albums/taxiTounsi/Image (4).png",
+        "/Project-Albums/taxiTounsi/Image (5).png",
+        "/Project-Albums/taxiTounsi/Image (6).png",
+        "/Project-Albums/taxiTounsi/Image (7).png",
+        "/Project-Albums/taxiTounsi/Image (8).png",
+      ],
+      isPrivate: true,
       isWinner: false
     },
     {
@@ -50,6 +121,13 @@ projects = signal<Project[]>([
       metric: "Freelance Commercial Project",
       github: "https://github.com/xAgesx",
       image: "/MrSceneario.jpg",
+      imageManifest: [
+        "/Project-Albums/fire-training-mr/Image (1).png",
+        "/Project-Albums/fire-training-mr/Image (2).png",
+        "/Project-Albums/fire-training-mr/Image (3).png",
+        "/Project-Albums/fire-training-mr/Image (4).png",
+      ],
+      isPrivate: true,
       isWinner: false
     },
     
@@ -61,6 +139,11 @@ projects = signal<Project[]>([
       metric: "1st Place Winner",
       github: "https://github.com/xAgesx/VR-GameJam",
       image: "/Clean_up_party.png",
+      imageManifest: [
+        "/Project-Albums/vr-gamejam-epi/Image (1).png",
+        "/Project-Albums/vr-gamejam-epi/Image (2).png",
+        "/Project-Albums/vr-gamejam-epi/Image (3).png",
+      ],
       isWinner: true
     },
     {
@@ -71,6 +154,11 @@ projects = signal<Project[]>([
       metric: "1st Place Winner",
       github: "https://github.com/xAgesx/GlobalGameJam-Entry---Unity",
       image: "/GGG_epi.png",
+      imageManifest: [
+        "/Project-Albums/global-gamejam/Image (1).png",
+        "/Project-Albums/global-gamejam/Image (2).png",
+        "/Project-Albums/global-gamejam/Image (3).png",
+      ],
       isWinner: true
     },
     {
@@ -80,7 +168,12 @@ projects = signal<Project[]>([
       tags: ["Angular", "Three.js", "Firebase", "Auth"],
       metric: "Full-stack Web or 3D",
       github: "https://github.com/xAgesx/Aethera-Angular-Three",
-      image: "/Aethera.png"
+      image: "/Aethera.png",
+      imageManifest: [
+        "/Project-Albums/aethera/Image (1).png",
+        "/Project-Albums/aethera/Image (2).png",
+        "/Project-Albums/aethera/Image (3).png",
+      ],
     },
     {
       title: "First VR: Atmospheric Puzzle",
@@ -89,7 +182,12 @@ projects = signal<Project[]>([
       tags: ["Unity", "XR Origin", "Level Design"],
       metric: "Portfolio Milestone",
       github: "https://github.com/xAgesx/First_VR_Game-Unity",
-      image: "First_VR.png"
+      image: "First_VR.png",
+      imageManifest: [
+        "/Project-Albums/first-vr/Image (1).png",
+        "/Project-Albums/first-vr/Image (2).png",
+        "/Project-Albums/first-vr/Image (3).png",
+      ],
     },
     {
       title: "SliceMania Mobile",
@@ -98,7 +196,12 @@ projects = signal<Project[]>([
       tags: ["Unity 2D", "C#", "AdMob"],
       metric: "Mobile Performance",
       github: "https://github.com/xAgesx/SliceMania-Unity-2D",
-      image: "/sliceMania.png"
+      image: "/sliceMania.png",
+      imageManifest: [
+        "/Project-Albums/slicemania/Image (1).png",
+        "/Project-Albums/slicemania/Image (2).png",
+        "/Project-Albums/slicemania/Image (3).png",
+      ],
     },
     {
       title: "Vanilla Java Engine",
@@ -107,7 +210,12 @@ projects = signal<Project[]>([
       tags: ["Java", "Core Engineering", "No-Engine"],
       metric: "Pure Systems Logic",
       github: "https://github.com/xAgesx/MyFirstGame-Java-",
-      image: "/First_Game_Java.png"
+      image: "/First_Game_Java.png",
+      imageManifest: [
+        "/Project-Albums/java-engine/Image (1).png",
+        "/Project-Albums/java-engine/Image (2).png",
+        "/Project-Albums/java-engine/Image (3).png",
+      ],
     }
   ]);
 
