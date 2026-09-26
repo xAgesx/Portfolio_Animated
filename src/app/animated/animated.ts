@@ -24,6 +24,7 @@ export class Animated {
   mouseY = signal(0);
   isScrolled = signal(false);
   isLightMode = signal(false);
+  isMenuOpen = signal(false);
 
   projects = signal<Project[]>([
     {
@@ -94,6 +95,19 @@ export class Animated {
   }
 
   scrollTo(id: string) {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+      if (this.isMenuOpen()) this.toggleMenu();
+    }
+  }
+
+  toggleMenu() {
+    this.isMenuOpen.update(v => !v);
+    if (this.isMenuOpen()) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
   }
 }

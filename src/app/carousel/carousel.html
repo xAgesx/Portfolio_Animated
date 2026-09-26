@@ -384,8 +384,8 @@
 
       <!-- Project Modal -->
       @if (selectedProject(); as project) {
-        <div class="modal-overlay" (click)="closeModal()" @fadeIn>
-          <div class="modal-container" (click)="$event.stopPropagation()" @slideUp>
+        <div class="modal-overlay" (click)="closeModal()">
+          <div class="modal-container" (click)="$event.stopPropagation()">
             <button class="modal-close" (click)="closeModal()" aria-label="Close">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
@@ -394,7 +394,7 @@
               <!-- Left: Image Album -->
               <div class="modal-gallery">
                 <div class="modal-main-image">
-                  <img [src]="getProjectImages(project)[modalImageIndex()]" [alt]="project.title" loading="lazy">
+                  <img [src]="getProjectImages(project)[modalImageIndex()]" [alt]="project.title" loading="eager">
                 </div>
                 @if (hasMultipleImages(project)) {
                   <div class="modal-thumbs">
@@ -403,7 +403,7 @@
                               [class.active]="modalImageIndex() === idx"
                               (click)="setModalImage(idx)"
                               aria-label="View image {{ idx + 1 }}">
-                        <img [src]="img" [alt]="project.title + ' ' + (idx + 1)" loading="lazy">
+                        <img [src]="img" [alt]="project.title + ' ' + (idx + 1)" loading="eager">
                       </button>
                     }
                   </div>

@@ -6,14 +6,15 @@
       <div class="glow-overlay"></div>
 
       <!-- Navigation -->
-      <nav [class.scrolled]="isScrolled()">
+      <nav [class.scrolled]="isScrolled()" [class.menu-open]="isMenuOpen()">
         <div class="nav-content">
           <div class="logo">
             <div class="logo-circle">T</div>
             <span class="logo-text">Thamer Douss</span>
           </div>
           <div class="nav-right">
-            <div class="nav-links">
+            <!-- Desktop Links -->
+            <div class="nav-links hidden-mobile">
               <button (click)="scrollTo('projects')">Work</button>
               <button (click)="scrollTo('experience')">Experience</button>
             </div>
@@ -26,8 +27,24 @@
               }
             </button>
 
-            <a href="mailto:sspencer.armageddonstudios@gmail.com" class="cta-btn">Get in Touch</a>
+            <a href="mailto:sspencer.armageddonstudios@gmail.com" class="cta-btn hidden-mobile">Get in Touch</a>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-toggle" (click)="toggleMenu()" [attr.aria-expanded]="isMenuOpen()">
+              <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </button>
           </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu" [class.active]="isMenuOpen()">
+          <button (click)="scrollTo('projects'); toggleMenu()">Work</button>
+          <button (click)="scrollTo('experience'); toggleMenu()">Experience</button>
+          <a href="mailto:sspencer.armageddonstudios@gmail.com" class="cta-btn mobile-cta">Get in Touch</a>
         </div>
       </nav>
 

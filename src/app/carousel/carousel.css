@@ -1134,7 +1134,7 @@ h1 {
 
 
 .carousel-card {
-    width: clamp(440px, 88vw, 880px);
+    width: clamp(320px, 85vw, 880px);
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 2rem;
@@ -1177,8 +1177,14 @@ h1 {
 .card-visual {
     position: relative;
     width: 100%;
-    height: 250px;
+    height: 220px;
     flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+    .card-visual {
+        height: 180px;
+    }
 }
 
 @media (min-width: 1024px) {
@@ -1206,10 +1212,16 @@ h1 {
 }
 
 .card-content {
-    padding: 2rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+}
+
+@media (min-width: 600px) {
+    .card-content {
+        padding: 2rem;
+    }
 }
 
 @media (min-width: 1024px) {
@@ -1277,6 +1289,29 @@ h1 {
     flex-shrink: 1;
     min-height: 0;
     overflow: hidden;
+}
+
+@media (max-width: 600px) {
+    .card-content h2 {
+        font-size: 1.25rem;
+    }
+    
+    .card-content p {
+        font-size: 0.85rem;
+    }
+    
+    .project-role {
+        font-size: 0.7rem;
+    }
+    
+    .tag {
+        font-size: 0.6rem;
+        padding: 0.3rem 0.6rem;
+    }
+    
+    .project-id {
+        font-size: 0.8rem;
+    }
 }
 
 .tag-cloud {
@@ -1728,23 +1763,28 @@ footer h2 {
     height: 60vh;
     min-height: 400px;
     max-height: 700px;
+    width: 100%;
 }
 
 .modal-main-image {
-    flex: 1;
+    flex: 1 1 auto;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 1.5rem;
     overflow: hidden;
     min-height: 0;
+    width: 100%;
 }
 
 .modal-main-image img {
     width: 100%;
     height: 100%;
+    max-width: 100%;
+    max-height: 100%;
     object-fit: contain;
     border-radius: 0.5rem;
+    display: block;
 }
 
 .modal-thumbs {
@@ -1824,6 +1864,7 @@ footer h2 {
     flex-direction: column;
     justify-content: space-between;
     overflow-y: auto;
+    min-height: 0;
 }
 
 .modal-header {
@@ -1943,20 +1984,177 @@ footer h2 {
 
 @media (max-width: 600px) {
     .modal-overlay {
-        padding: 1rem;
+        padding: 0;
         align-items: flex-end;
     }
     
     .modal-container {
-        max-height: 85vh;
+        max-height: 100vh;
         border-radius: 1.5rem 1.5rem 0 0;
+        animation: slideUp 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
     }
     
     .modal-content {
         grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        flex: 1;
+        overflow: hidden;
     }
     
     .modal-gallery {
         max-height: 40vh;
+        min-height: 250px;
+        flex-shrink: 0;
+        width: 100%;
+    }
+    
+    .modal-main-image {
+        padding: 0.75rem;
+        flex: 1 1 auto;
+        width: 100%;
+    }
+    
+    .modal-main-image img {
+        border-radius: 0;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+    
+    .modal-thumbs {
+        padding: 0.75rem 1rem;
+        gap: 0.4rem;
+    }
+    
+    .modal-thumb {
+        width: 60px;
+        height: 45px;
+    }
+    
+    .modal-nav {
+        padding: 0.75rem;
+        gap: 0.75rem;
+    }
+    
+    .modal-nav-btn {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .modal-counter {
+        font-size: 0.75rem;
+    }
+    
+    .modal-details {
+        padding: 1.25rem;
+        overflow-y: auto;
+        flex: 1;
+        min-height: 0;
+        max-height: 60vh;
+    }
+    
+    .modal-header {
+        margin-bottom: 1rem;
+    }
+    
+    .modal-details h2 {
+        font-size: 1.5rem;
+    }
+    
+    .modal-role {
+        font-size: 0.8rem;
+    }
+    
+    .modal-description {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+    
+    .modal-tags {
+        gap: 0.4rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .modal-tags .tag {
+        font-size: 0.65rem;
+        padding: 0.3rem 0.6rem;
+    }
+    
+    .modal-meta {
+        gap: 0.75rem;
+        padding-top: 1rem;
+        flex-shrink: 0;
+    }
+    
+    .modal-meta-item .meta-label {
+        font-size: 0.65rem;
+    }
+    
+    .modal-meta-item .meta-value,
+    .modal-meta-item .meta-link {
+        font-size: 0.85rem;
+    }
+    
+    .modal-close {
+        top: 0.5rem;
+        right: 0.5rem;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+    .modal-close:hover {
+        transform: none;
+        background: rgba(0, 0, 0, 0.5);
+    }
+    
+    .modal-thumb:hover {
+        border-color: transparent;
+    }
+    
+    .modal-nav-btn:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .project-card:hover {
+        transform: none;
+        box-shadow: none;
+        border-color: var(--border);
+    }
+    
+    .carousel-card:hover {
+        transform: none;
+        box-shadow: none;
+        border-color: var(--border);
+    }
+    
+    .timeline-content:hover {
+        transform: none;
+        box-shadow: none;
+        border-color: var(--border);
+    }
+    
+    .win-item:hover {
+        transform: none;
+        box-shadow: none;
+        border-color: var(--border);
+    }
+    
+    .nav-btn:hover:not(:disabled) {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    .cta-btn:hover {
+        transform: none;
     }
 }
