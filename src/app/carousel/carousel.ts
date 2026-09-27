@@ -1,5 +1,8 @@
-import { Component, ChangeDetectionStrategy, signal, HostListener, computed, effect, ViewChild, ElementRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, HostListener, computed, effect, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 interface Project {
   title: string;
@@ -15,6 +18,14 @@ interface Project {
   isWinner?: boolean;
 }
 
+interface VertexPoint {
+  id: number;
+  x: number;
+  y: number;
+  delay: number;
+  dur: number;
+}
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -23,7 +34,7 @@ interface Project {
   templateUrl:'./carousel.html',
   styleUrl:'./carousel.css'
 })
-export class Carousel {
+export class Carousel implements AfterViewInit, OnDestroy {
   mouseX = signal(0);
   mouseY = signal(0);
   isScrolled = signal(false);
@@ -34,12 +45,213 @@ export class Carousel {
   modalImageIndex = signal(0);
   modalDetailsCollapsed = signal(false);
   @ViewChild('modalThumbs') modalThumbs!: ElementRef<HTMLDivElement>;
+  @ViewChild('modelContainer') modelContainer!: ElementRef<HTMLDivElement>;
+
+  vertexPoints = signal<VertexPoint[]>([
+    { id: 1, x: 12, y: 18, delay: 0.2, dur: 3.5 },
+    { id: 2, x: 85, y: 15, delay: 0.6, dur: 4 },
+    { id: 3, x: 8, y: 75, delay: 1.1, dur: 3 },
+    { id: 4, x: 90, y: 80, delay: 0.4, dur: 4.5 },
+    { id: 5, x: 25, y: 45, delay: 0.8, dur: 3.8 },
+    { id: 6, x: 75, y: 55, delay: 1.3, dur: 3.2 },
+    { id: 7, x: 45, y: 8, delay: 0.1, dur: 4.2 },
+    { id: 8, x: 55, y: 92, delay: 0.9, dur: 3.6 },
+  ]);
+
+  // Three.js model
+  private threeScene: THREE.Scene | null = null;
+  private threeCamera: THREE.PerspectiveCamera | null = null;
+  private threeRenderer: THREE.WebGLRenderer | null = null;
+  private threeModel: THREE.Group | null = null;
+  private threeAnimationId: number | null = null;
+  private modelContainerEl: HTMLDivElement | null = null;
 
   constructor() {
     effect(() => {
       this.modalImageIndex();
       this.scrollActiveThumbIntoView();
     });
+  }
+
+  ngAfterViewInit() {
+    this.initModelViewer();
+  }
+
+  ngOnDestroy() {
+    if (this.threeAnimationId) {
+      cancelAnimationFrame(this.threeAnimationId);
+    }
+    if (this.threeRenderer) {
+      this.threeRenderer.dispose();
+    }
+  }
+
+  private initModelViewer() {
+    const container = this.modelContainer?.nativeElement || document.getElementById('model-container');
+    if (!container) return;
+
+    this.modelContainerEl = container;
+
+    // Scene
+    this.threeScene = new THREE.Scene();
+
+    // Camera
+    const rect = container.getBoundingClientRect();
+    this.threeCamera = new THREE.PerspectiveCamera(45, rect.width / rect.height, 0.1, 100);
+    this.threeCamera.position.set(-1.2, 2.2, 3.5);
+
+    // Renderer
+    this.threeRenderer = new THREE.WebGLRenderer({ 
+      antialias: true, 
+      alpha: true,
+      powerPreference: 'high-performance'
+    });
+    this.threeRenderer.setSize(rect.width, rect.height);
+    this.threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.threeRenderer.setClearColor(0x000000, 0);
+    this.threeRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.threeRenderer.toneMappingExposure = 1.2;
+    this.threeRenderer.shadowMap.enabled = true;
+    this.threeRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    container.appendChild(this.threeRenderer.domElement);
+
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    this.threeScene.add(ambientLight);
+
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    keyLight.position.set(2, 4, 3);
+    keyLight.castShadow = true;
+    keyLight.shadow.mapSize.width = 1024;
+    keyLight.shadow.mapSize.height = 1024;
+    this.threeScene.add(keyLight);
+
+    const fillLight = new THREE.DirectionalLight(0x00d4ff, 0.5);
+    fillLight.position.set(-3, 2, -2);
+    this.threeScene.add(fillLight);
+
+    const rimLight = new THREE.DirectionalLight(0xffd700, 0.3);
+    rimLight.position.set(0, -2, -4);
+    this.threeScene.add(rimLight);
+
+    // Ground plane for shadows
+    const groundGeometry = new THREE.PlaneGeometry(10, 10);
+    const groundMaterial = new THREE.ShadowMaterial({ opacity: 0.15 });
+    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -1;
+    ground.receiveShadow = true;
+    this.threeScene.add(ground);
+
+    // Load GLB model
+    const loader = new GLTFLoader();
+    loader.load(
+      '/arcade_machine.glb',
+      (gltf) => {
+        this.threeModel = gltf.scene;
+        
+        // Center and scale model
+        const box = new THREE.Box3().setFromObject(this.threeModel);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 2 / maxDim;
+        this.threeModel.scale.setScalar(scale);
+        
+        // Recalculate box after scaling
+        box.setFromObject(this.threeModel);
+        box.getCenter(center);
+        this.threeModel.position.sub(center);
+        this.threeModel.position.y = -1 + size.y * scale / 2;
+        
+        // Enable shadows
+        this.threeModel.traverse((child) => {
+          if (child instanceof THREE.Mesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+            // Enhance materials
+            if (child.material) {
+              const materials = Array.isArray(child.material) ? child.material : [child.material];
+              materials.forEach(mat => {
+                if (mat instanceof THREE.MeshStandardMaterial) {
+                  mat.metalness = Math.min(mat.metalness + 0.2, 1);
+                  mat.roughness = Math.max(mat.roughness - 0.1, 0);
+                }
+              });
+            }
+          }
+        });
+        
+        this.threeScene!.add(this.threeModel);
+      },
+      undefined,
+      (error) => {
+        console.error('Error loading model:', error);
+      }
+    );
+
+    // Controls (interactive - click to rotate/zoom/pan)
+    const controls = new OrbitControls(this.threeCamera, this.threeRenderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.enablePan = true;
+    controls.enableZoom = true;
+    controls.enableRotate = true;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.3;
+    controls.minPolarAngle = Math.PI / 4;
+    controls.maxPolarAngle = Math.PI / 1.3;
+    controls.minDistance = 2;
+    controls.maxDistance = 8;
+    
+    // Responsive target position
+    const updateTarget = () => {
+      const isMobile = window.innerWidth < 768;
+      controls.target.set(isMobile ? 0 : -1.0, -0.1, 0);
+    };
+    updateTarget();
+    window.addEventListener('resize', updateTarget);
+
+    // Pause auto-rotate on user interaction, resume after 3s idle
+    let autoRotateTimeout: number;
+    const pauseAutoRotate = () => {
+      controls.autoRotate = false;
+      clearTimeout(autoRotateTimeout);
+      autoRotateTimeout = window.setTimeout(() => {
+        controls.autoRotate = true;
+      }, 3000);
+    };
+    controls.addEventListener('start', pauseAutoRotate);
+
+    // Animation loop
+    const animate = () => {
+      this.threeAnimationId = requestAnimationFrame(animate);
+      
+      controls.update();
+      
+      // Subtle floating animation for model
+      if (this.threeModel) {
+        this.threeModel.rotation.y += 0.001;
+        this.threeModel.position.y = -1 + Math.sin(Date.now() * 0.001) * 0.05;
+      }
+      
+      this.threeRenderer!.render(this.threeScene!, this.threeCamera!);
+    };
+    animate();
+
+    // Handle resize
+    const handleResize = () => {
+      if (!this.threeCamera || !this.threeRenderer || !this.modelContainerEl) return;
+      const rect = this.modelContainerEl.getBoundingClientRect();
+      this.threeCamera.aspect = rect.width / rect.height;
+      this.threeCamera.updateProjectionMatrix();
+      this.threeRenderer.setSize(rect.width, rect.height);
+    };
+    window.addEventListener('resize', handleResize);
+    
+    // Store cleanup
+    (this as any)._modelResizeHandler = handleResize;
   }
 
   techStack = ['Unity', 'C#', 'XR/MR', 'Meta Quest 3', 'Angular', 'Three.js', 'Firebase', 'Java', 'AI Programming', 'Procedural Gen', 'Physics Systems', 'Hand Tracking'];
@@ -122,6 +334,7 @@ projects = signal<Project[]>([
         "/Project-Albums/taxiTounsi/Image (5).png",
         "/Project-Albums/taxiTounsi/Image (6).png",
         "/Project-Albums/taxiTounsi/Image (7).png",
+        "/Project-Albums/taxiTounsi/Image (8).png",
         "/Project-Albums/taxiTounsi/Image (8).png",
       ],
       isPrivate: true,
@@ -244,12 +457,6 @@ projects = signal<Project[]>([
     const offset = this.currentIndex() * (880 + 32);
     return `translateX(-${offset}px)`;
   });
-
-  @HostListener('window:mousemove', ['$event'])
-  onMouseMove(e: MouseEvent) {
-    this.mouseX.set(e.clientX);
-    this.mouseY.set(e.clientY);
-  }
 
   @HostListener('window:scroll')
   onScroll() {
