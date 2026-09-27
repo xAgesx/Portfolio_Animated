@@ -335,7 +335,8 @@ projects = signal<Project[]>([
         "/Project-Albums/taxiTounsi/Image (6).png",
         "/Project-Albums/taxiTounsi/Image (7).png",
         "/Project-Albums/taxiTounsi/Image (8).png",
-        "/Project-Albums/taxiTounsi/Image (8).png",
+        "/Project-Albums/taxiTounsi/Image (9).png",
+        "/Project-Albums/taxiTounsi/Image (10).png",
       ],
       isPrivate: true,
       isWinner: false
@@ -349,10 +350,7 @@ projects = signal<Project[]>([
       github: "https://github.com/xAgesx",
       image: "/MrSceneario.jpg",
       imageManifest: [
-        "/Project-Albums/fire-training-mr/Image (1).png",
-        "/Project-Albums/fire-training-mr/Image (2).png",
-        "/Project-Albums/fire-training-mr/Image (3).png",
-        "/Project-Albums/fire-training-mr/Image (4).png",
+        
       ],
       isPrivate: true,
       isWinner: false
@@ -370,6 +368,10 @@ projects = signal<Project[]>([
         "/Project-Albums/vr-gamejam-epi/Image (1).png",
         "/Project-Albums/vr-gamejam-epi/Image (2).png",
         "/Project-Albums/vr-gamejam-epi/Image (3).png",
+        "/Project-Albums/vr-gamejam-epi/Image (4).png",
+        "/Project-Albums/vr-gamejam-epi/Image (5).png",
+        "/Project-Albums/vr-gamejam-epi/Image (6).png",
+        "/Project-Albums/vr-gamejam-epi/Image (7).png",
       ],
       isWinner: true
     },
@@ -385,6 +387,8 @@ projects = signal<Project[]>([
         "/Project-Albums/global-gamejam/Image (1).png",
         "/Project-Albums/global-gamejam/Image (2).png",
         "/Project-Albums/global-gamejam/Image (3).png",
+        "/Project-Albums/global-gamejam/Image (4).png",
+        "/Project-Albums/global-gamejam/Image (5).png",
       ],
       isWinner: true
     },
@@ -397,9 +401,7 @@ projects = signal<Project[]>([
       github: "https://github.com/xAgesx/Aethera-Angular-Three",
       image: "/Aethera.png",
       imageManifest: [
-        "/Project-Albums/aethera/Image (1).png",
-        "/Project-Albums/aethera/Image (2).png",
-        "/Project-Albums/aethera/Image (3).png",
+    
       ],
     },
     {
@@ -411,9 +413,7 @@ projects = signal<Project[]>([
       github: "https://github.com/xAgesx/First_VR_Game-Unity",
       image: "First_VR.png",
       imageManifest: [
-        "/Project-Albums/first-vr/Image (1).png",
-        "/Project-Albums/first-vr/Image (2).png",
-        "/Project-Albums/first-vr/Image (3).png",
+
       ],
     },
     {
@@ -425,9 +425,7 @@ projects = signal<Project[]>([
       github: "https://github.com/xAgesx/SliceMania-Unity-2D",
       image: "/sliceMania.png",
       imageManifest: [
-        "/Project-Albums/slicemania/Image (1).png",
-        "/Project-Albums/slicemania/Image (2).png",
-        "/Project-Albums/slicemania/Image (3).png",
+
       ],
     },
     {
@@ -439,9 +437,7 @@ projects = signal<Project[]>([
       github: "https://github.com/xAgesx/MyFirstGame-Java-",
       image: "/First_Game_Java.png",
       imageManifest: [
-        "/Project-Albums/java-engine/Image (1).png",
-        "/Project-Albums/java-engine/Image (2).png",
-        "/Project-Albums/java-engine/Image (3).png",
+
       ],
     }
   ]);
